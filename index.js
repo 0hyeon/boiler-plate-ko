@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 
 const config = require('./config/key');
 
+const { auth } = require("./middleware/auth")
 const { User } = require("./models/User")
 
 // application/x-www-form-urlencoded 이렇게 된 데이터를 분석해서 가져옴 
@@ -35,7 +36,7 @@ app.post('/register',(req,res) => {
     })//save는 mongodb에서 오는 메서드 
 })
 
-app.post('/login',(req,res) =>{
+app.post('/api/users/login',(req,res) =>{
     //요청한 이메일이 db에 있는지 찾는다. 
     User.findOne({ email:req.body.email},(err,user)=>{//User db를가져옴 findOne은 몽고db에서 제공하는 메소드 이용
         if(!user){
@@ -60,6 +61,18 @@ app.post('/login',(req,res) =>{
                 .json({ loginSuccess:true, userId: user._id})//json으로 데이터보내주면됨
             })
         })//comparePassword메소드를 만들어서 req.body,password랑 (err,Ismatch)를 넣어줌
+    })
+})
+
+//role 1 어드민 role 2 특정 부서 어드민
+//role 0 -> 일반유저 role 0이 아니면 관리자 
+app.get('/api/users/auth', auth ,(req,res) => {
+    //여기까지 미들웨어를 통과해 왔다는 얘기는 Authentication이 True 라는 말.
+    res.status(200).json({
+        _id: req.user._id,
+        isAdmin: req.uwer.role === 0 ? false : true,//auth.js에서 user를 req.user로 담아서
+        email: req.user
+        name: req.user.name
     })
 })
 
