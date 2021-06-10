@@ -72,7 +72,7 @@ app.get('/api/users/auth', auth ,(req,res) => {
         _id: req.user._id,
         isAdmin: req.uwer.role === 0 ? false : true,//auth.js에서 user를 req.user로 담아서
         email: req.user
-        name: req.user.name
+        name: req.user.name크흠
     })
 })
 
