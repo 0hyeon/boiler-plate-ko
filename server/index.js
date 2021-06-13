@@ -71,9 +71,24 @@ app.get('/api/users/auth', auth ,(req,res) => {
     res.status(200).json({
         _id: req.user._id,
         isAdmin: req.uwer.role === 0 ? false : true,//auth.js에서 user를 req.user로 담아서
-        email: req.user
-        name: req.user.name
+        email: req.user.lastname,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        image: req.user.image
+
     })
+})
+
+app.get('/api/users/logout',auth,(res,req) => {
+    User.findOneAndUpdate({_id:req.user._id}),//user모델을 가져와서 업데이트 
+        { toke: ""}//지워줌
+    , (err, user) => {
+        if(err) return res.json({ succcess: false, err});
+        return res.status(200).send({
+            succcess: true
+        })
+    }
 })
 
 app.listen(port,function(){
