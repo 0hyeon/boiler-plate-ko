@@ -1,9 +1,47 @@
-import React from 'react'
+import axios from 'axios'
+// import { response } from 'express';
+import React, { useState } from 'react'
+import {useDispatch} from 'react-redux';
+import { loginUser } from '../../../_actions/user_action';
+function LoginPage(props) {
+    const dispatch = useDispatch()
 
-function LoginPage() {
+    const [Email, setEmail] = useState("")//usestate 단축키로 state 생성가능 
+    const [Password, setPassword] = useState("")
+    const onEmailHandler = (event) => {
+        setEmail(event.currentTarget.value)
+    }
+    const onPasswordHandler = (event) => {
+        setPassword(event.currentTarget.value)
+    }
+    const onSubmitHandler = (event) => {
+        event.preventDefault();//원래해야할일을 써야하는데 이걸 안해주면 리프레시가 됨 
+
+        let body = {
+            email: Email,
+            password: Password
+        }
+        dispatch(loginUser(body))
+            .then(response => {
+                if(response.payload.loginSuccess) {
+                    props.history.push('/')
+                }else{
+                    alert('Error')
+                }
+            })
+    }
     return (
-        <div>
-            LoginPage
+        <div style={{display:'flex', justifyContent: 'center', alignItems: 'center', width:'100%',height:'100vh'}}>
+            <form style ={{ display:'flex', flexDirection:'column'}} onSubmit={onSubmitHandler}>
+                <label>Email</label>
+                <input type="email" value={Email} onChange={onEmailHandler} />
+                <label>Password</label>
+                <input type="password" value={Password} onChange={onPasswordHandler} />
+                <br />
+                <button>
+                    Login
+                </button>
+            </form>
         </div>
     )
 }

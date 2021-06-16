@@ -26,9 +26,7 @@ app.get('/',function(req,res){
 });
 
 
-app.get('/api/hello',(req,res) => {
-    res.send("Hello World~!")
-})
+app.get('/api/hello',(req,res) => res.send("Hello World~!"))
 
 app.post('/register',(req,res) => {
     //client에서 로그인 정보를 가져옴 
