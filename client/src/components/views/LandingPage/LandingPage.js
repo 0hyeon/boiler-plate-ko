@@ -1,6 +1,6 @@
 import React ,{useEffect} from 'react'
 import axios from 'axios';
-// import { response } from 'express';
+// import { request,response } from 'express';
 function LandingPage() {//LandingPage들어오자 마자 useEffect 실행 
 
     useEffect(() => {
