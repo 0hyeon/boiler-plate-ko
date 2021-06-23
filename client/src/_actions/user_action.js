@@ -1,14 +1,14 @@
-import axios from "axios";
+import axios from 'axios';
 import {
     LOGIN_USER,
     REGISTER_USER
 } from './types';
 
-export function loginUser(dataToSubmit) {
+export function loginUser(dataToSubmit) {//LoginPage에서 사용됨
     const request = axios.post('/api/users/login', dataToSubmit)
         .then(response =>  response.data )
 
-    return {
+    return {//reducer로 보내야함 
         type: LOGIN_USER,
         payload: request
     }
